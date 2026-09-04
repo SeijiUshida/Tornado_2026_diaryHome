@@ -50,8 +50,10 @@
     </section>
 
     <section class="diary-card">
-      <p class="diary-status">まだ今日は日記を書いていません</p>
-      <a class="write-btn" href="placeholder.html?title=日記を書く">日記を書く！</a>
+      <p class="diary-status" id="diaryStatus">まだ今日は日記を書いていません</p>
+      <div class="diary-action" id="diaryAction">
+        <a class="write-btn" id="writeBtn" href="#">日記を書く！</a>
+      </div>
     </section>
 
     <a class="history-row" href="placeholder.html?title=これまでの日記">
@@ -80,6 +82,31 @@
 </div>
 
 <script>
+  /* ---------- 交換日記の状態管理（未執筆 → 送信済み(マッチ待ち) → 交換成立） ---------- */
+  const diaryStatus = document.getElementById('diaryStatus');
+  const diaryAction = document.getElementById('diaryAction');
+
+  function renderDiaryState(state) {
+    if (state === 'none') {
+      diaryStatus.textContent = 'まだ今日は日記を書いていません';
+      diaryAction.innerHTML = '<a class="write-btn" id="writeBtn" href="#">日記を書く！</a>';
+      document.getElementById('writeBtn').addEventListener('click', (e) => {
+        e.preventDefault();
+        renderDiaryState('waiting');
+        // デモ用: 実際にはマッチが成立するまでこの状態が続きます
+        setTimeout(() => renderDiaryState('matched'), 2600);
+      });
+    } else if (state === 'waiting') {
+      diaryStatus.textContent = '届け先を探しています';
+      diaryAction.innerHTML = '';
+    } else if (state === 'matched') {
+      diaryStatus.textContent = '日記が交換されました！';
+      diaryAction.innerHTML = '<a class="write-btn" href="placeholder.html?title=日記を見る">日記を見る</a>';
+    }
+  }
+
+  renderDiaryState('none');
+
   const menuBtn = document.getElementById('menuBtn');
   const menuPanel = document.getElementById('menuPanel');
 

@@ -174,8 +174,30 @@ body {
   color: #dfe1f2;
 }
 
+.diary-action {
+  min-height: 46px;
+  display: flex;
+  align-items: center;
+}
+
+.diary-action:empty::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #f2c94c;
+  margin: 0 auto;
+  animation: pulse 1.2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.3; transform: scale(0.85); }
+  50% { opacity: 1; transform: scale(1.15); }
+}
+
 .write-btn {
   display: block;
+  width: 100%;
   background: linear-gradient(135deg, #6f7bf2 0%, #4b57d6 100%);
   color: #fff;
   text-decoration: none;
@@ -183,6 +205,7 @@ body {
   font-weight: 700;
   padding: 14px;
   border-radius: 12px;
+  text-align: center;
 }
 
 .history-row {
